@@ -132,12 +132,19 @@ function drawStory(ctx,v,s,img){
   barG.addColorStop(0,RED); barG.addColorStop(0.5,LRED); barG.addColorStop(1,RED);
   ctx.fillStyle=barG; ctx.fillRect(0,0,W*s,12*s);
 
-  // ── BRAND NAME centered at top ──
+  // ── BRAND NAME centered, pushed down, glowing ──
+  ctx.save();
   ctx.textAlign='center'; ctx.textBaseline='top';
-  ctx.fillStyle=BK; ctx.font=`900 ${46*s}px Arial,sans-serif`;
-  ctx.fillText('ARSENAL CENTER', W*s/2, 26*s);
-  ctx.fillStyle=RED; ctx.font=`700 ${22*s}px Arial,sans-serif`;
-  ctx.fillText('FOR ELECTRONICS', W*s/2, 80*s);
+  ctx.shadowColor=RED; ctx.shadowBlur=28*s;
+  ctx.fillStyle=LRED; ctx.font=`900 ${50*s}px Arial,sans-serif`;
+  ctx.fillText('ARSENAL CENTER', W*s/2, 80*s);
+  ctx.restore();
+
+  ctx.save();
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillStyle='#333'; ctx.font=`700 ${22*s}px Arial,sans-serif`;
+  ctx.fillText('FOR ELECTRONICS', W*s/2, 140*s);
+  ctx.restore();
 
   // ── DECORATIVE SQUARES on background ──
   ctx.save();
@@ -208,7 +215,7 @@ function drawStory(ctx,v,s,img){
   ctx.restore();
 
   // ── PRODUCT IMAGE ──
-  const imgX=40*s, imgY=150*s, imgW=(W-80)*s, imgH=870*s, imgR=26*s;
+  const imgX=100*s, imgY=220*s, imgW=(W-200)*s, imgH=580*s, imgR=24*s;
 
   ctx.shadowColor='rgba(0,0,0,0.12)'; ctx.shadowBlur=35*s; ctx.shadowOffsetY=12*s;
   rr(ctx,imgX,imgY,imgW,imgH,imgR,'#f9f9f9');
