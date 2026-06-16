@@ -132,91 +132,52 @@ function drawStory(ctx,v,s,img){
   barG.addColorStop(0,RED); barG.addColorStop(0.5,LRED); barG.addColorStop(1,RED);
   ctx.fillStyle=barG; ctx.fillRect(0,0,W*s,12*s);
 
-  // ── BRAND NAME centered, pushed down, glowing ──
+  // ── CALCULATE TOTAL HEIGHT & CENTER ──
+  // Total content: header(170) + img(580) + name(130) + specs(112) + price(215) + cta(190) = ~1397
+  // Center offset = (1920 - 1397) / 2 = ~261, use 200 as top padding
+  const TOP = 180*s;
+
+  // ── BRAND NAME ──
   ctx.save();
   ctx.textAlign='center'; ctx.textBaseline='top';
   ctx.shadowColor=RED; ctx.shadowBlur=28*s;
   ctx.fillStyle=LRED; ctx.font=`900 ${50*s}px Arial,sans-serif`;
-  ctx.fillText('ARSENAL CENTER', W*s/2, 80*s);
+  ctx.fillText('ARSENAL CENTER', W*s/2, TOP);
   ctx.restore();
-
   ctx.save();
   ctx.textAlign='center'; ctx.textBaseline='top';
   ctx.fillStyle='#333'; ctx.font=`700 ${22*s}px Arial,sans-serif`;
-  ctx.fillText('FOR ELECTRONICS', W*s/2, 140*s);
-  ctx.restore();
-
-  // ── DECORATIVE SQUARES on background ──
-  ctx.save();
-
-  ctx.strokeStyle=RED; ctx.lineWidth=3*s;
-  const sq = [
-    // top-right
-    [W-200,80,140,140,0.07],[W-160,120,140,140,0.06],[W-240,50,90,90,0.05],
-    [W-130,60,60,60,0.08],[W-300,140,70,70,0.05],
-    // top-left
-    [20,80,120,120,0.06],[50,110,100,100,0.05],[10,50,70,70,0.07],
-    [80,60,55,55,0.06],[30,180,80,80,0.04],
-    // bottom-right
-    [W-180,H-260,130,130,0.07],[W-140,H-220,100,100,0.06],[W-220,H-290,80,80,0.05],
-    [W-100,H-180,60,60,0.08],[W-260,H-240,65,65,0.05],
-    // bottom-left
-    [20,H-270,130,130,0.07],[55,H-230,100,100,0.06],[10,H-310,80,80,0.05],
-    [80,H-190,65,65,0.08],[30,H-350,55,55,0.04],
-    // mid-right
-    [W-100,700,90,90,0.05],[W-140,760,70,70,0.06],[W-80,820,55,55,0.04],
-    [W-120,640,50,50,0.07],[W-170,870,80,80,0.04],
-    // mid-left
-    [20,700,85,85,0.05],[50,760,65,65,0.06],[15,820,55,55,0.04],
-    [60,640,50,50,0.07],[20,870,75,75,0.04],
-    // CENTER mid area
-    [W/2-200,500,60,60,0.05],[W/2+140,520,55,55,0.05],
-    [W/2-180,560,40,40,0.06],[W/2+160,575,40,40,0.06],
-    [W/2-220,480,30,30,0.07],[W/2+190,490,30,30,0.07],
-    [W/2-100,1350,70,70,0.05],[W/2+50,1370,55,55,0.05],
-    [W/2-130,1400,40,40,0.06],[W/2+80,1420,40,40,0.06],
-  ];
-  sq.forEach(([x,y,w,h,a])=>{
-    ctx.globalAlpha=a;
-    ctx.strokeRect(x*s,y*s,w*s,h*s);
-  });
-
-  // Small filled red squares
-  ctx.fillStyle=RED;
-  const dots = [
-    [W-55,170,16,0.15],[W-75,230,12,0.12],[W-45,300,20,0.10],
-    [W-90,350,14,0.12],[W-60,420,10,0.14],[W-80,480,16,0.10],
-    [30,170,16,0.15],[50,240,12,0.12],[25,310,20,0.10],
-    [60,380,14,0.12],[35,450,10,0.14],
-    [W-55,H-160,16,0.15],[W-75,H-230,12,0.12],[W-45,H-300,20,0.10],
-    [30,H-160,16,0.15],[50,H-240,12,0.12],[25,H-320,20,0.10],
-    // center dots
-    [W/2-240,510,12,0.10],[W/2+220,530,10,0.10],
-    [W/2-250,560,8,0.12],[W/2+230,580,8,0.12],
-    [W/2-80,1360,12,0.10],[W/2+110,1380,10,0.10],
-    [W-55,750,14,0.12],[25,750,14,0.12],
-    [W-45,900,10,0.10],[35,900,10,0.10],
-  ];
-  dots.forEach(([x,y,sz,a])=>{
-    ctx.globalAlpha=a;
-    ctx.fillRect(x*s,y*s,sz*s,sz*s);
-  });
-
-  // Diagonal line accents
-  ctx.strokeStyle=RED; ctx.lineWidth=2*s;
-  ctx.globalAlpha=0.06;
-  [[W-50,80,W-20,110],[W-60,200,W-30,230],[W-55,140,W-25,170],
-   [30,80,60,110],[20,200,50,230],[25,140,55,170],
-   [W-50,H-80,W-20,H-110],[30,H-80,60,H-110],
-   [W-50,780,W-20,810],[30,780,60,810]].forEach(([x1,y1,x2,y2])=>{
-    ctx.beginPath(); ctx.moveTo(x1*s,y1*s); ctx.lineTo(x2*s,y2*s); ctx.stroke();
-  });
-
+  ctx.fillText('FOR ELECTRONICS', W*s/2, TOP+62*s);
   ctx.restore();
 
   // ── PRODUCT IMAGE ──
-  const imgX=100*s, imgY=220*s, imgW=(W-200)*s, imgH=580*s, imgR=24*s;
+  const imgX=100*s, imgY=TOP+108*s, imgW=(W-200)*s, imgH=580*s, imgR=24*s;
+  // ── DECORATIVE SQUARES ──
+  ctx.save();
+  ctx.strokeStyle=RED; ctx.lineWidth=3*s;
+  const sq = [
+    [W-200,80,140,140,0.07],[W-160,120,140,140,0.06],[W-240,50,90,90,0.05],
+    [W-130,60,60,60,0.08],[W-300,140,70,70,0.05],
+    [20,80,120,120,0.06],[50,110,100,100,0.05],[10,50,70,70,0.07],
+    [80,60,55,55,0.06],[30,180,80,80,0.04],
+    [W-180,H-260,130,130,0.07],[W-140,H-220,100,100,0.06],[W-220,H-290,80,80,0.05],
+    [W-100,H-180,60,60,0.08],[W-260,H-240,65,65,0.05],
+    [20,H-270,130,130,0.07],[55,H-230,100,100,0.06],[10,H-310,80,80,0.05],
+    [80,H-190,65,65,0.08],[30,H-350,55,55,0.04],
+    [W-100,700,90,90,0.05],[W-140,760,70,70,0.06],[W-80,820,55,55,0.04],
+    [20,700,85,85,0.05],[50,760,65,65,0.06],[15,820,55,55,0.04],
+    [W/2-200,500,60,60,0.05],[W/2+140,520,55,55,0.05],
+    [W/2-180,560,40,40,0.06],[W/2+160,575,40,40,0.06],
+    [W/2-100,1350,70,70,0.05],[W/2+50,1370,55,55,0.05],
+  ];
+  sq.forEach(([x,y,w,h,a])=>{ ctx.globalAlpha=a; ctx.strokeRect(x*s,y*s,w*s,h*s); });
+  ctx.fillStyle=RED;
+  [[W-55,170,16,0.15],[W-75,230,12,0.12],[W-45,300,20,0.10],[30,170,16,0.15],[50,240,12,0.12],
+   [W-55,H-160,16,0.15],[W-75,H-230,12,0.12],[30,H-160,16,0.15],[50,H-240,12,0.12]
+  ].forEach(([x,y,sz,a])=>{ ctx.globalAlpha=a; ctx.fillRect(x*s,y*s,sz*s,sz*s); });
+  ctx.restore();
 
+  // ── PRODUCT IMAGE ──
   ctx.shadowColor='rgba(0,0,0,0.12)'; ctx.shadowBlur=35*s; ctx.shadowOffsetY=12*s;
   rr(ctx,imgX,imgY,imgW,imgH,imgR,'#f9f9f9');
   ctx.shadowBlur=0; ctx.shadowOffsetY=0;
